@@ -6,7 +6,7 @@ const handleLoad= async ()=>{
 }
 
 const fetchNews= ()=>{
-    return fetch(`https://newsapi.org/v2/top-headlines?country=in&apiKey=4823b9ff42b3433aafc1cd7745850fd2&pageSize=10`)
+    return fetch(`https://newsapi.org/v2/top-headlines?country=in&category=technology&apiKey=4823b9ff42b3433aafc1cd7745850fd2`)
     .then((res)=>res.json())
 }
 
