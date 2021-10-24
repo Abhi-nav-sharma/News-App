@@ -58,9 +58,15 @@ const createCard= (item)=>{
     div.style.marginBottom='10px'
     return div
 }
-
+const handleSearch= ()=>{
+    const search= document.getElementById('search').value 
+    localStorage.setItem('search',search)
+    window.location.replace('search.html')
+}
 window.addEventListener('load',function(){
     const cont= document.getElementById('nav-bar')
     cont.innerHTML= Navbar()
+    const btn= document.getElementById('search-btn')
+    btn.addEventListener('click',handleSearch)
     handleLoad()
 })

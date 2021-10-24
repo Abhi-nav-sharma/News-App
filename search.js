@@ -1,20 +1,49 @@
 import Navbar from "./navbar.js"
 
+var per_page=5
+var current_page=1
 const handleLoad= async ()=>{
     const response= await fetchNews()
     showHeadlines(response)
 }
 
 const fetchNews= ()=>{
-    return fetch(`https://newsapi.org/v2/top-headlines?country=in&category=entertainment&apiKey=4823b9ff42b3433aafc1cd7745850fd2`)
+    var search= localStorage.getItem('search')
+    return fetch(`https://newsapi.org/v2/top-headlines?q=${search}&apiKey=4823b9ff42b3433aafc1cd7745850fd2&pageSize=${per_page}&page=${current_page}`)
     .then((res)=>res.json())
 }
 
 const showHeadlines=(items)=>{
     const container= document.getElementById('container')
+    container.textContent=null
     for (let item of items.articles){
         container.append(createCard(item))
     }
+    if(items.totalResults>5){
+        const prev= document.createElement('button')
+    prev.textContent='Previous'
+    if(current_page===1){
+        prev.disabled= true
+    }
+    prev.addEventListener('click',handlePrev)
+    const current= document.createElement('button')
+    current.textContent= current_page
+    const next= document.createElement('button') 
+    next.textContent='Next'
+    container.append(prev,current,next)
+    next.addEventListener('click',handleNext)
+    }
+}
+function handlePrev(e){
+    const btn= e.target
+    current_page--
+    handleLoad()
+}
+
+function handleNext(e){
+    const btn= e.target
+    current_page++
+    handleLoad()
 }
 
 const createCard= (item)=>{
